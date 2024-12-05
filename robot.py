@@ -1,79 +1,77 @@
-#!/usr/bin/env python3
-
 # Copyright (c) FIRST and other WPILib contributors.
 # Open Source Software; you can modify and/or share it under the terms of
 # the WPILib BSD license file in the root directory of this project.
 
 import wpilib
-import commands2
+from commands2 import CommandScheduler
+from robot_container import RobotContainer
 
 class Robot(wpilib.TimedRobot):
-    def robotInit(self) -> None:
-        """
-        This function is run when the robot is first started up and should be used for any
-        initialization code.
-        """
-        self.autonomous_command: commands2.Command = None
-        self.robot_container = RobotContainer()
+    def robotInit(self):
+        """Initialize the robot."""
+        print("Robot Initialized!")
+        self.m_robotContainer = RobotContainer()
 
-    def robotPeriodic(self) -> None:
-        """
-        This function is called every 20 ms, no matter the mode.
-        """
-        commands2.CommandScheduler.getInstance().run()
+    def robotPeriodic(self):
+        """Run code that should execute regardless of the robot's mode."""
+        CommandScheduler.getInstance().run()
 
-    def disabledInit(self) -> None:
-        """Called once when robot is disabled"""
+    def disabledInit(self):
+        """Run once when the robot enters Disabled mode."""
         pass
 
-    def disabledPeriodic(self) -> None:
-        """Called periodically while disabled"""
+    def disabledPeriodic(self):
+        """Run periodically while the robot is in Disabled mode."""
         pass
 
-    def disabledExit(self) -> None:
-        """Called when robot leaves disabled mode"""
+    def disabledExit(self):
+        """Run once when the robot exits Disabled mode."""
         pass
 
-    def autonomousInit(self) -> None:
-        """Called when autonomous mode starts"""
-        self.autonomous_command = self.robot_container.getAutonomousCommand()
+    def autonomousInit(self):
+        """Run once when the robot enters Autonomous mode."""
+        self.m_autonomousCommand = self.m_robotContainer.get_autonomous_command()
 
-        if self.autonomous_command is not None:
-            self.autonomous_command.schedule()
+        if self.m_autonomousCommand is not None:
+            self.m_autonomousCommand.schedule()
 
-    def autonomousPeriodic(self) -> None:
-        """Called periodically during autonomous"""
+    def autonomousPeriodic(self):
+        """Run periodically during Autonomous mode."""
         pass
 
-    def autonomousExit(self) -> None:
-        """Called when autonomous mode ends"""
+    def autonomousExit(self):
+        """Run once when the robot exits Autonomous mode."""
         pass
 
-    def teleopInit(self) -> None:
-        """Called when teleop mode starts"""
-        if self.autonomous_command is not None:
-            self.autonomous_command.cancel()
+    def teleopInit(self):
+        """Run once when the robot enters Teleoperated mode."""
+        if self.m_autonomousCommand is not None:
+            self.m_autonomousCommand.cancel()
 
-    def teleopPeriodic(self) -> None:
-        """Called periodically during teleop"""
+    def teleopPeriodic(self):
+        """Run periodically during Teleoperated mode."""
         pass
 
-    def teleopExit(self) -> None:
-        """Called when teleop mode ends"""
+    def teleopExit(self):
+        """Run once when the robot exits Teleoperated mode."""
         pass
 
-    def testInit(self) -> None:
-        """Called when test mode starts"""
-        commands2.CommandScheduler.getInstance().cancelAll()
+    def testInit(self):
+        """Run once when the robot enters Test mode."""
+        CommandScheduler.getInstance().cancelAll()
 
-    def testPeriodic(self) -> None:
-        """Called periodically during test mode"""
+    def testPeriodic(self):
+        """Run periodically during Test mode."""
         pass
 
-    def testExit(self) -> None:
-        """Called when test mode ends"""
+    def testExit(self):
+        """Run once when the robot exits Test mode."""
         pass
 
-    def simulationPeriodic(self) -> None:
-        """Called periodically during simulation"""
+    def simulationPeriodic(self):
+        """Run periodically in simulation."""
         pass
+
+
+if __name__ == "__main__":
+    wpilib.run(Robot)
