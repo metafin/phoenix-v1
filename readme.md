@@ -1,0 +1,83 @@
+## Setup for a clean computer (Windows)
+
+### Install Python v3.10 (see below)
+
+### set up a virtual environment (see below)
+
+### verify that you're running Python v3.10 in your virtual env:
+
+```bash
+  python --version
+```
+
+### install packages
+
+```bash
+    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3
+```
+
+## How To Install Python v3.10
+
+Install Chocolatey (if not already installed):
+
+- Open Command Prompt or PowerShell as an Administrator.
+- Run the following command to install Chocolatey:
+  ```bash
+   Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.WebClient]::new().DownloadString('https://chocolatey.org/install.ps1') | Invoke-Expression
+  ```
+- Install a specific version of Python:
+  ```bash
+   choco install python --version=3.10
+  ```
+- Verify the installation:
+  ```bash
+    python --version
+  ```
+
+## Install pyenv-win in PowerShell.
+
+https://github.com/pyenv-win/pyenv-win
+
+Invoke-WebRequest -UseBasicParsing
+-Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "
+./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+Reopen PowerShell
+
+Run to check if the installation was successful.
+
+```bash
+  pyenv --version
+```
+
+Run to check a list of Python versions supported by pyenv-win
+
+```bash
+  pyenv install -l
+```
+
+Run to install the supported version
+
+```bash
+  pyenv install 3.10
+```
+
+Run to set a Python version as the global version
+
+```bash
+  pyenv global 3.10
+``` 
+
+Check which Python version you are using and its path
+
+```bash
+  pyenv version
+```
+
+<version> (set by \path\to\.pyenv\pyenv-win\.python-version)
+Check that Python is working
+
+```bash
+  python -c "import sys; print(sys.executable)"
+```
+
+\path\to\.pyenv\pyenv-win\versions\<version>\python.exe
