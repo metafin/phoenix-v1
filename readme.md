@@ -86,3 +86,18 @@ Check that Python is working
 ```
 
 \path\to\.pyenv\pyenv-win\versions\<version>\python.exe
+
+
+# RoboRIO set up
+
+## 2025 image required
+
+We need to latest image RIO to be compatible with the latest Phoenix and robotpy
+URL to download: https://github.com/wpilibsuite/2025Beta/releases/tag/NI_GAME_TOOLS_BETA_2
+
+Need to install the latest versions onto the RIO
+
+```bash
+ python -m robotpy installer install phoenix6== 25.0.0b3 
+ ```
+Maybe we need to install all the packages listed above

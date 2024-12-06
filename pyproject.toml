@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [tool.robotpy]
 
-# Version of robotpy this project depends on
+# Version of robotpy this project depends onrobot
 robotpy_version = " 2025.0.0b2"
 
 # Which extra RobotPy components should be installed
