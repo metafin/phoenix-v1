@@ -4,12 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="Initial. Needs better java to py translation.">
-      <change beforePath="$PROJECT_DIR$/.idea/PhoenixV1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PhoenixV1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/robot_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot_container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsystems/command_swerve_drivetrain.py" beforeDir="false" afterPath="$PROJECT_DIR$/subsystems/command_swerve_drivetrain.py" afterDir="false" />
+    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="Clean-ups. Working on sim. Time to test on the robot!">
+      <change beforePath="$PROJECT_DIR$/robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +26,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SET_USER_NAME_GLOBALLY" value="false" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -97,6 +94,7 @@
       <workItem from="1733449968016" duration="828000" />
       <workItem from="1733450821745" duration="2663000" />
       <workItem from="1733453789974" duration="662000" />
+      <workItem from="1733458218405" duration="712000" />
     </task>
     <task id="LOCAL-00001" summary="Initial. Needs better java to py translation.">
       <option name="closed" value="true" />
@@ -106,7 +104,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733367417392</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Clean-ups. Working on sim. Time to test on the robot!">
+      <option name="closed" value="true" />
+      <created>1733458277989</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733458277990</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -125,7 +131,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial. Needs better java to py translation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial. Needs better java to py translation." />
+    <MESSAGE value="Clean-ups. Working on sim. Time to test on the robot!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Clean-ups. Working on sim. Time to test on the robot!" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PhoenixV1$command_swerve_drivetrain.coverage" NAME="command_swerve_drivetrain Coverage Results" MODIFIED="1733430531408" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/subsystems" />
