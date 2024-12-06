@@ -1,8 +1,9 @@
 ## Setup for a clean computer (Windows)
 
 ### Install Python v3.10 (see below)
+pyenv is the way to go
 
-### set up a virtual environment (see below)
+### set up a virtual environment (NEED INSTRUCTIONS)
 
 ### verify that you're running Python v3.10 in your virtual env:
 
@@ -13,8 +14,11 @@
 ### install packages
 
 ```bash
-    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3
+    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3 robotpy[commands2] pynetworktables
 ```
+
+## you need to make sure that the python interpreter in pycharm is set to python v 3.10
+
 
 ## How To Install Python v3.10
 
@@ -38,9 +42,10 @@ Install Chocolatey (if not already installed):
 
 https://github.com/pyenv-win/pyenv-win
 
-Invoke-WebRequest -UseBasicParsing
--Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "
-./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+```bash
+Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
+```
+
 Reopen PowerShell
 
 Run to check if the installation was successful.
