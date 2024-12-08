@@ -14,7 +14,7 @@ pyenv is the way to go
 ### install packages
 
 ```bash
-    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b2 robotpy[commands2] pynetworktables
+    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3 robotpy[commands2] pynetworktables
 ```
 
 ## you need to make sure that the python interpreter in pycharm is set to python v 3.10
@@ -124,18 +124,43 @@ Maybe we need to install all the packages listed above
 
 But... I get this error:
 
+﻿﻿﻿﻿﻿﻿ Exception ignored on calling ctypes callback function <function SwerveDrivetrain.register_telemetry.<locals>.telem_callback at 0xb17676b8>: ﻿
 ﻿﻿﻿﻿﻿﻿ Traceback (most recent call last): ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/robotpy/main.py", line 68, in _load_robot_class ﻿
-﻿﻿﻿﻿﻿﻿     spec.loader.exec_module(module) ﻿
-﻿﻿﻿﻿﻿﻿     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^ ﻿
-﻿﻿﻿﻿﻿﻿   File "<frozen importlib._bootstrap_external>", line 1022, in exec_module ﻿
-﻿﻿﻿﻿﻿﻿   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot.py", line 7, in <module> ﻿
-﻿﻿﻿﻿﻿﻿     from robot_container import RobotContainer ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot_container.py", line 9, in <module> ﻿
-﻿﻿﻿﻿﻿﻿     from telemetry import Telemetry ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 3, in <module> ﻿
-﻿﻿﻿﻿﻿﻿     from networktables import NetworkTablesInstance ﻿
-﻿﻿﻿﻿﻿﻿ ModuleNotFoundError: No module named 'networktables' ﻿
-﻿﻿﻿﻿﻿﻿ 15:21:41:973 INFO    : faulthandler        : registered SIGUSR2 for PID 7962 ﻿
-﻿﻿﻿﻿﻿﻿ ﻿ERROR﻿: importing /home/lvuser/py/robot.py failed! ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/phoenix6/swerve/swerve_drivetrain.py", line 619, in telem_callback ﻿
+﻿﻿﻿﻿﻿﻿     telemetry_function(self.__cached_state) ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 52, in telemeterize ﻿
+﻿﻿﻿﻿﻿﻿     distance_diff = pose.translation().minus(self.last_pose.translation()) ﻿
+﻿﻿﻿﻿﻿﻿ AttributeError: 'wpimath.geometry._geometry.Translation2d' object has no attribute 'minus' ﻿
+﻿﻿﻿﻿﻿﻿ ﻿Warning﻿: Joystick Axis 4 missing (max 4), check if all controllers are plugged in ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/wpilib/_impl/start.py", line 247, in _start ﻿
+﻿﻿﻿﻿﻿﻿     self.robot.startCompetition() ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot.py", line 18, in robotPeriodic ﻿
+﻿﻿﻿﻿﻿﻿     CommandScheduler.getInstance().run() ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 301, in run ﻿
+﻿﻿﻿﻿﻿﻿     self._schedule(scommand) ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 212, in _schedule ﻿
+﻿﻿﻿﻿﻿﻿     self._initCommand(command, *requirements) ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 168, in _initCommand ﻿
+﻿﻿﻿﻿﻿﻿     command.initialize() ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/functionalcommand.py", line 50, in initialize ﻿
+﻿﻿﻿﻿﻿﻿     self._onInit() ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/subsystems/command_swerve_drivetrain.py", line 33, in <lambda> ﻿
+﻿﻿﻿﻿﻿﻿     return InstantCommand(lambda: self.set_control(request_supplier()), self) ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot_container.py", line 54, in <lambda> ﻿
+﻿﻿﻿﻿﻿﻿     .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate) ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿  ﻿
+﻿﻿﻿﻿﻿﻿ Exception ignored on calling ctypes callback function <function SwerveDrivetrain.register_telemetry.<locals>.telem_callback at 0xb17676b8>: ﻿
+﻿﻿﻿﻿﻿﻿ Traceback (most recent call last): ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/phoenix6/swerve/swerve_drivetrain.py", line 619, in telem_callback ﻿
+﻿﻿﻿﻿﻿﻿     telemetry_function(self.__cached_state) ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 52, in telemeterize ﻿
+﻿﻿﻿﻿﻿﻿     distance_diff = pose.translation().minus(self.last_pose.translation()) ﻿
+﻿﻿﻿﻿﻿﻿ AttributeError: 'wpimath.geometry._geometry.Translation2d' object has no attribute 'minus' ﻿

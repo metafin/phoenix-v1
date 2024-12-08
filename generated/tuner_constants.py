@@ -98,6 +98,7 @@ front_left = constant_creator.create_module_constants(
     location_y=inchesToMeters(10.41),
     drive_motor_inverted=k_invert_left_side,
     steer_motor_inverted=True,
+    cancoder_inverted=False,
 )
 
 front_right = constant_creator.create_module_constants(
@@ -109,6 +110,7 @@ front_right = constant_creator.create_module_constants(
     location_y=inchesToMeters(-10.41),
     drive_motor_inverted=k_invert_right_side,
     steer_motor_inverted=True,
+    cancoder_inverted=False,
 )
 
 back_left = constant_creator.create_module_constants(
@@ -120,6 +122,7 @@ back_left = constant_creator.create_module_constants(
     location_y=inchesToMeters(10.41),
     drive_motor_inverted=k_invert_left_side,
     steer_motor_inverted=True,
+    cancoder_inverted=False,
 )
 
 back_right = constant_creator.create_module_constants(
@@ -131,6 +134,7 @@ back_right = constant_creator.create_module_constants(
     location_y=inchesToMeters(-10.41),
     drive_motor_inverted=k_invert_right_side,
     steer_motor_inverted=True,
+    cancoder_inverted=False,
 )
 
 # Drivetrain subsystem

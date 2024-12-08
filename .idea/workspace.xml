@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="Things we need to update to hopefully be able to deploy new code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.wpilib/wpilib_preferences.json" beforeDir="false" afterPath="$PROJECT_DIR$/.wpilib/wpilib_preferences.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/generated/tuner_constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/generated/tuner_constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pyproject.toml" beforeDir="false" afterPath="$PROJECT_DIR$/pyproject.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -102,7 +100,7 @@
       <workItem from="1733517751856" duration="460000" />
       <workItem from="1733518377630" duration="4178000" />
       <workItem from="1733678421266" duration="709000" />
-      <workItem from="1733684154642" duration="4980000" />
+      <workItem from="1733684154642" duration="6351000" />
     </task>
     <task id="LOCAL-00001" summary="Initial. Needs better java to py translation.">
       <option name="closed" value="true" />
@@ -136,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733519160553</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Things we need to update to hopefully be able to deploy new code">
+      <option name="closed" value="true" />
+      <created>1733695724648</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733695724648</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
