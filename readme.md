@@ -14,7 +14,7 @@ pyenv is the way to go
 ### install packages
 
 ```bash
-    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3 robotpy[commands2] pynetworktables
+    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b2 robotpy[commands2] pynetworktables
 ```
 
 ## you need to make sure that the python interpreter in pycharm is set to python v 3.10
@@ -95,9 +95,47 @@ Check that Python is working
 We need to latest image RIO to be compatible with the latest Phoenix and robotpy
 URL to download: https://github.com/wpilibsuite/2025Beta/releases/tag/NI_GAME_TOOLS_BETA_2
 
+Funky - the software required a RIO version one earlier. So I found that here:
+https://github.com/wpilibsuite/2025Beta/releases
+
+## Install base software on the RIO
+ python -m robotpy installer download-python        
+
 Need to install the latest versions onto the RIO
 
 ```bash
  python -m robotpy installer install phoenix6== 25.0.0b3 
  ```
 Maybe we need to install all the packages listed above
+
+
+# BN Notes
+- python v3.13.0
+- delete all site-packages from .venv/Lib
+- reinstall pip
+- run pip script above
+- robotpy sim runs
+
+## now on rio
+- run robotpy sync
+- (this will run a long script to install stuff on rio)
+- robotpy deploy fails becuase of some issues with tests
+- but when i run "robotpy deploy --skip-tests" is seems to deploy
+
+But... I get this error:
+
+﻿﻿﻿﻿﻿﻿ Traceback (most recent call last): ﻿
+﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/robotpy/main.py", line 68, in _load_robot_class ﻿
+﻿﻿﻿﻿﻿﻿     spec.loader.exec_module(module) ﻿
+﻿﻿﻿﻿﻿﻿     ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^ ﻿
+﻿﻿﻿﻿﻿﻿   File "<frozen importlib._bootstrap_external>", line 1022, in exec_module ﻿
+﻿﻿﻿﻿﻿﻿   File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot.py", line 7, in <module> ﻿
+﻿﻿﻿﻿﻿﻿     from robot_container import RobotContainer ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot_container.py", line 9, in <module> ﻿
+﻿﻿﻿﻿﻿﻿     from telemetry import Telemetry ﻿
+﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 3, in <module> ﻿
+﻿﻿﻿﻿﻿﻿     from networktables import NetworkTablesInstance ﻿
+﻿﻿﻿﻿﻿﻿ ModuleNotFoundError: No module named 'networktables' ﻿
+﻿﻿﻿﻿﻿﻿ 15:21:41:973 INFO    : faulthandler        : registered SIGUSR2 for PID 7962 ﻿
+﻿﻿﻿﻿﻿﻿ ﻿ERROR﻿: importing /home/lvuser/py/robot.py failed! ﻿
