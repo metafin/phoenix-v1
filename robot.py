@@ -11,6 +11,7 @@ class Robot(wpilib.TimedRobot):
         """Initialize the robot."""
         print("Robot Initialized!")
         self.m_robotContainer = RobotContainer()
+        self.m_autonomousCommand = None
 
     def robotPeriodic(self):
         """Run code that should execute regardless of the robot's mode."""

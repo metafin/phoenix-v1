@@ -2,13 +2,14 @@ import math
 from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler
 from commands2.button import Trigger
 from wpilib import XboxController
+from wpilib.event import EventLoop
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from phoenix6 import utils
 from phoenix6.swerve import requests, swerve_module
 from subsystems.command_swerve_drivetrain import CommandSwerveDrivetrain
 from telemetry import Telemetry
 from generated import tuner_constants
-
+from commands2 import InstantCommand, CommandScheduler
 
 class RobotContainer:
     def __init__(self):
@@ -32,10 +33,12 @@ class RobotContainer:
         # Telemetry
         self.logger = Telemetry(self.max_speed)
 
+        self.event_loop = EventLoop()
+
         # Configure button bindings
         self.configure_bindings()
 
-        # If in simulation, seed field-relative position
+        # If in simulation, seed_field_centric position
         if utils.is_simulation():
             self.drivetrain.seed_field_centric()
 
@@ -56,25 +59,30 @@ class RobotContainer:
         # Ensure you have a default EventLoop from the CommandScheduler
         default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
 
-        # Brake mode on A button
-        Trigger(default_loop, lambda: self.joystick.getAButton()).whileTrue(
-            InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
+        self.joystick.A(self.event_loop).ifHigh(
+            lambda: CommandScheduler.getInstance().schedule(
+                InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
+            )
         )
 
         # Point wheels on B button
-        Trigger(default_loop, lambda: self.joystick.getBButton()).whileTrue(
-            InstantCommand(
-                lambda: self.drivetrain.apply_request(
-                    lambda: self.point.with_module_direction(
-                        Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+        self.joystick.B(self.event_loop).ifHigh(
+            lambda: CommandScheduler.getInstance().schedule(
+                InstantCommand(
+                    lambda: self.drivetrain.apply_request(
+                        lambda: self.point.with_module_direction(
+                            Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+                        )
                     )
                 )
             )
         )
 
         # Reset field-centric heading on left bumper
-        Trigger(default_loop, lambda: self.joystick.getLeftBumper()).onTrue(
-            InstantCommand(lambda: self.drivetrain.seed_field_relative())
+        self.joystick.leftBumper(self.event_loop).ifHigh(
+            lambda: CommandScheduler.getInstance().schedule(
+                InstantCommand(lambda: self.drivetrain.seed_field_centric())
+            )
         )
 
     def get_autonomous_command(self) -> Command:
