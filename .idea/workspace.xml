@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="Things we need to update to hopefully be able to deploy new code">
+    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="add readme for PC set up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generated/tuner_constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/generated/tuner_constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot_container.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/telemetry.py" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +69,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>

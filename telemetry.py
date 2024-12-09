@@ -49,7 +49,7 @@ class Telemetry:
         diff_time = current_time - self.last_time
         self.last_time = current_time
 
-        distance_diff = pose.translation().minus(self.last_pose.translation())
+        distance_diff = pose.translation() - self.last_pose.translation()
         velocities = distance_diff / diff_time
         self.last_pose = pose
 

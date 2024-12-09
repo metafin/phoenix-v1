@@ -1,5 +1,6 @@
 import math
-from commands2 import InstantCommand, PrintCommand, Command
+from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler
+from commands2.button import Trigger
 from wpilib import XboxController
 from wpilib.event import EventLoop
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
@@ -55,7 +56,9 @@ class RobotContainer:
                                           )
         )
 
-        # Brake mode on A button
+        # Ensure you have a default EventLoop from the CommandScheduler
+        default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
+
         self.joystick.A(self.event_loop).ifHigh(
             lambda: CommandScheduler.getInstance().schedule(
                 InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
