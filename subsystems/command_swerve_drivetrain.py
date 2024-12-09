@@ -50,7 +50,7 @@ class CommandSwerveDrivetrain(SwerveDrivetrain, SubsystemBase):
         """Periodically apply operator perspective based on alliance color."""
         if not self.has_applied_operator_perspective or DriverStation.isDisabled():
             alliance_color = DriverStation.getAlliance()
-            if alliance_color == DriverStation.Alliance.Red:
+            if alliance_color == DriverStation.Alliance.kRed:
                 self.set_operator_perspective_forward(self.RedAlliancePerspectiveRotation)
             else:
                 self.set_operator_perspective_forward(self.BlueAlliancePerspectiveRotation)

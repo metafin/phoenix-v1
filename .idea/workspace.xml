@@ -4,13 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="Initial. Needs better java to py translation.">
+    <list default="true" id="bd93a4c8-88e4-43be-a306-8bc14947555d" name="Changes" comment="add readme for PC set up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/generated/tuner_constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/generated/tuner_constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/robot.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/robot_container.py" beforeDir="false" afterPath="$PROJECT_DIR$/robot_container.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/subsystems/command_swerve_drivetrain.py" beforeDir="false" afterPath="$PROJECT_DIR$/subsystems/command_swerve_drivetrain.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/telemetry.py" beforeDir="false" afterPath="$PROJECT_DIR$/telemetry.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +58,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/briannorton/PycharmProjects/PhoenixV1&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -71,6 +68,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -91,6 +93,10 @@
       <workItem from="1733425036393" duration="537000" />
       <workItem from="1733425772656" duration="4930000" />
       <workItem from="1733430714849" duration="2001000" />
+      <workItem from="1733433136949" duration="3029000" />
+      <workItem from="1733441160971" duration="1980000" />
+      <workItem from="1733443690963" duration="4063000" />
+      <workItem from="1733708562002" duration="964000" />
     </task>
     <task id="LOCAL-00001" summary="Initial. Needs better java to py translation.">
       <option name="closed" value="true" />
@@ -100,7 +106,23 @@
       <option name="project" value="LOCAL" />
       <updated>1733367417392</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Initial. Needs better java to py translation.">
+      <option name="closed" value="true" />
+      <created>1733433349932</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733433349932</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add readme for PC set up">
+      <option name="closed" value="true" />
+      <created>1733445229583</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733445229583</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -119,7 +141,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial. Needs better java to py translation." />
-    <option name="LAST_COMMIT_MESSAGE" value="Initial. Needs better java to py translation." />
+    <MESSAGE value="add readme for PC set up" />
+    <option name="LAST_COMMIT_MESSAGE" value="add readme for PC set up" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PhoenixV1$command_swerve_drivetrain.coverage" NAME="command_swerve_drivetrain Coverage Results" MODIFIED="1733430531408" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/subsystems" />

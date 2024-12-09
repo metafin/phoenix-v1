@@ -1,5 +1,6 @@
 import math
-from commands2 import InstantCommand, PrintCommand, Command
+from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler
+from commands2.button import Trigger
 from wpilib import XboxController
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
 from phoenix6 import utils
@@ -36,9 +37,7 @@ class RobotContainer:
 
         # If in simulation, seed field-relative position
         if utils.is_simulation():
-            self.drivetrain.seed_field_relative(
-                Pose2d(Translation2d(0, 0), Rotation2d.fromDegrees(90))
-            )
+            self.drivetrain.seed_field_centric()
 
         # Register telemetry
         self.drivetrain.register_telemetry(self.logger.telemeterize)
@@ -54,13 +53,16 @@ class RobotContainer:
                                           )
         )
 
+        # Ensure you have a default EventLoop from the CommandScheduler
+        default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
+
         # Brake mode on A button
-        self.joystick.getAButton().whenHeld(
+        Trigger(default_loop, lambda: self.joystick.getAButton()).whileTrue(
             InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
         )
 
         # Point wheels on B button
-        self.joystick.getBButton().whenHeld(
+        Trigger(default_loop, lambda: self.joystick.getBButton()).whileTrue(
             InstantCommand(
                 lambda: self.drivetrain.apply_request(
                     lambda: self.point.with_module_direction(
@@ -71,7 +73,7 @@ class RobotContainer:
         )
 
         # Reset field-centric heading on left bumper
-        self.joystick.getLeftBumperButton().whenPressed(
+        Trigger(default_loop, lambda: self.joystick.getLeftBumper()).onTrue(
             InstantCommand(lambda: self.drivetrain.seed_field_relative())
         )
 
