@@ -14,7 +14,7 @@ from commands2 import InstantCommand, CommandScheduler
 class RobotContainer:
     def __init__(self):
         """Initialize the RobotContainer and configure bindings."""
-        self.max_speed = tuner_constants.k_speed_at_12_volts_mps  # Top speed
+        self.max_speed = tuner_constants.k_speed_at_12_volts_mps * 0.5  # Top speed
         self.max_angular_rate = 1.5 * math.pi  # Max angular velocity (3/4 rotation per second)
 
         # Joystick and drivetrain initialization
