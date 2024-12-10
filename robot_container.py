@@ -10,6 +10,8 @@ from subsystems.command_swerve_drivetrain import CommandSwerveDrivetrain
 from telemetry import Telemetry
 from generated import tuner_constants
 from commands2 import InstantCommand, CommandScheduler
+from subsystems.rotate_to_april_tag import RotateToAprilTag
+from handlers.limelight_handler import LimelightHandler
 
 class RobotContainer:
     def __init__(self):
@@ -20,6 +22,8 @@ class RobotContainer:
         # Joystick and drivetrain initialization
         self.joystick = XboxController(0)
         self.drivetrain = tuner_constants.DriveTrain
+
+        self.limelight_handler = LimelightHandler(debug=True)
 
         # Swerve requests
         self.drive = requests.FieldCentric() \
@@ -75,6 +79,13 @@ class RobotContainer:
                         )
                     )
                 )
+            )
+        )
+
+        # X button: Rotate to AprilTag
+        self.joystick.X(self.event_loop).ifHigh(
+            lambda: CommandScheduler.getInstance().schedule(
+                RotateToAprilTag(self.drivetrain, self.limelight_handler)
             )
         )
 
