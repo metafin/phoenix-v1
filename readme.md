@@ -16,27 +16,7 @@ pyenv is the way to go
 ```bash
     pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3 robotpy[commands2] pynetworktables
 ```
-
-## you need to make sure that the python interpreter in pycharm is set to python v 3.10
-
-
-## How To Install Python v3.10
-
-Install Chocolatey (if not already installed):
-
-- Open Command Prompt or PowerShell as an Administrator.
-- Run the following command to install Chocolatey:
-  ```bash
-   Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.WebClient]::new().DownloadString('https://chocolatey.org/install.ps1') | Invoke-Expression
-  ```
-- Install a specific version of Python:
-  ```bash
-   choco install python --version=3.10
-  ```
-- Verify the installation:
-  ```bash
-    python --version
-  ```
+Note: needs to be pip install robotpy\\[commands2\\] on Mc
 
 ## Install pyenv-win in PowerShell.
 
