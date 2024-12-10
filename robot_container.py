@@ -14,6 +14,7 @@ from subsystems.rotate_to_april_tag import RotateToAprilTag
 from handlers.limelight_handler import LimelightHandler
 
 class RobotContainer:
+
     def __init__(self):
         """Initialize the RobotContainer and configure bindings."""
         self.max_speed = tuner_constants.k_speed_at_12_volts_mps * 0.5  # Top speed
