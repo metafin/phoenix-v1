@@ -63,37 +63,77 @@ class RobotContainer:
         # Ensure you have a default EventLoop from the CommandScheduler
         default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
 
+        # A Button - Brake
         self.joystick.A(self.event_loop).ifHigh(
             lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
+                InstantCommand(lambda: [
+                    print("A Button Pressed - Activating Brake"),
+                    self.drivetrain.apply_request(lambda: self.brake)
+                ]())
             )
         )
 
-        # Point wheels on B button
+        # B Button - Point Wheels
         self.joystick.B(self.event_loop).ifHigh(
             lambda: CommandScheduler.getInstance().schedule(
                 InstantCommand(
-                    lambda: self.drivetrain.apply_request(
-                        lambda: self.point.with_module_direction(
-                            Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+                    lambda: [
+                        print("B Button Pressed - Pointing Wheels"),
+                        self.drivetrain.apply_request(
+                            lambda: self.point.with_module_direction(
+                                Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+                            )
                         )
-                    )
+                    ]()
                 )
             )
         )
 
-        # X button: Rotate to AprilTag
+        # X Button - Rotate to AprilTag
         self.joystick.X(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                RotateToAprilTag(self.drivetrain, self.limelight_handler)
-            )
+            lambda: [
+                print("X Button Pressed - Rotating to AprilTag"),
+                CommandScheduler.getInstance().schedule(
+                    RotateToAprilTag(self.drivetrain, self.limelight_handler)
+                )
+            ]()
         )
 
-        # Reset field-centric heading on left bumper
+        # Y Button
+        self.joystick.Y(self.event_loop).ifHigh(
+            lambda: print("Y Button Pressed")
+        )
+
+        # Bumpers
         self.joystick.leftBumper(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(lambda: self.drivetrain.seed_field_centric())
-            )
+            lambda: [
+                print("Left Bumper Pressed - Resetting Field-Centric Heading"),
+                CommandScheduler.getInstance().schedule(
+                    InstantCommand(lambda: self.drivetrain.seed_field_centric())
+                )
+            ]()
+        )
+
+        self.joystick.rightBumper(self.event_loop).ifHigh(
+            lambda: print("Right Bumper Pressed")
+        )
+
+        # Triggers
+        self.joystick.leftTrigger(self.event_loop).ifHigh(
+            lambda: print("Left Trigger Pressed")
+        )
+
+        self.joystick.rightTrigger(self.event_loop).ifHigh(
+            lambda: print("Right Trigger Pressed")
+        )
+
+        # Start and Back buttons
+        self.joystick.start(self.event_loop).ifHigh(
+            lambda: print("Start Button Pressed")
+        )
+
+        self.joystick.back(self.event_loop).ifHigh(
+            lambda: print("Back Button Pressed")
         )
 
     def get_autonomous_command(self) -> Command:

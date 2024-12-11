@@ -14,7 +14,7 @@ pyenv is the way to go
 ### install packages
 
 ```bash
-    pip install wpilib==2025.0.0b2 robotpy==2025.0.0b2 phoenix6==25.0.0b3 robotpy[commands2] pynetworktables
+    pip install requirements.txt -r
 ```
 Note: needs to be pip install robotpy\\[commands2\\] on Mc
 
