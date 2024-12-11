@@ -18,6 +18,7 @@ class RotateToAprilTag(Command):
 
     def execute(self):
         """Called repeatedly when the command is scheduled."""
+        print("rotate_to_april_tag execute")
         result = self.limelight_handler.read_results()
         if result and result.validity:
             print("Target: Acquired")
