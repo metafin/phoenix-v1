@@ -14,9 +14,12 @@ from commands2 import InstantCommand, CommandScheduler
 from subsystems.rotate_to_april_tag import RotateToAprilTag
 from handlers.limelight_handler import LimelightHandler
 
+
 class RobotContainer:
     def __init__(self):
         """Initialize the RobotContainer and configure bindings."""
+        wpilib.SmartDashboard.putString("Status", "RobotContainer Init")
+
         self.max_speed = tuner_constants.k_speed_at_12_volts_mps * 0.5  # Top speed
         self.max_angular_rate = 1.5 * math.pi  # Max angular velocity (3/4 rotation per second)
 
@@ -54,84 +57,85 @@ class RobotContainer:
         """Configure button-to-command mappings."""
         # Default drivetrain command
         self.drivetrain.setDefaultCommand(
-            self.drivetrain.apply_request(lambda: self.drive
-                                          .with_velocity_x(-self.joystick.getLeftY() * self.max_speed)
-                                          .with_velocity_y(-self.joystick.getLeftX() * self.max_speed)
-                                          .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
-                                          )
+            self.drivetrain.apply_request(
+                lambda: self.drive
+                .with_velocity_x(-self.joystick.getLeftY() * self.max_speed)
+                .with_velocity_y(-self.joystick.getLeftX() * self.max_speed)
+                .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
+                )
         )
 
         # A Button - Brake
+        def a_button_pressed():
+            wpilib.SmartDashboard.putString("Button", "A Button Pressed")
+            self.drivetrain.apply_request(lambda: self.brake)
+
         self.joystick.A(self.event_loop).ifHigh(
             lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(lambda: [
-                    wpilib.DataLogManager.log("A Button Pressed - Activating Brake"),
-                    self.drivetrain.apply_request(lambda: self.brake)
-                ]())
+                InstantCommand(a_button_pressed)
             )
         )
 
         # B Button - Point Wheels
+        def b_button_pressed():
+            wpilib.SmartDashboard.putString("Button", "B Button Pressed")
+            self.drivetrain.apply_request(
+                lambda: self.point.with_module_direction(
+                    Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+                )
+            )
+
         self.joystick.B(self.event_loop).ifHigh(
             lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(
-                    lambda: [
-                        wpilib.DataLogManager.log("B Button Pressed - Pointing Wheels"),
-                        self.drivetrain.apply_request(
-                            lambda: self.point.with_module_direction(
-                                Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
-                            )
-                        )
-                    ]()
-                )
+                InstantCommand(b_button_pressed)
             )
         )
 
         # X Button - Rotate to AprilTag
-        self.joystick.X(self.event_loop).ifHigh(
-            lambda: [
-                wpilib.DataLogManager.log("X Button Pressed - Rotating to AprilTag"),
-                CommandScheduler.getInstance().schedule(
-                    RotateToAprilTag(self.drivetrain, self.limelight_handler)
-                )
-            ]()
-        )
+        def x_button_pressed():
+            wpilib.SmartDashboard.putString("Button", "X Button Pressed")
+            CommandScheduler.getInstance().schedule(
+                RotateToAprilTag(self.drivetrain, self.limelight_handler)
+            )
+
+        self.joystick.X(self.event_loop).ifHigh(x_button_pressed)
 
         # Y Button
         self.joystick.Y(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Y Button Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Y Button Pressed")
         )
 
         # Bumpers
+        def left_bumper_pressed():
+            wpilib.SmartDashboard.putString("Button", "Left Bumper Pressed")
+            self.drivetrain.seed_field_centric()
+
         self.joystick.leftBumper(self.event_loop).ifHigh(
-            lambda: [
-                wpilib.DataLogManager.log("Left Bumper Pressed - Resetting Field-Centric Heading"),
-                CommandScheduler.getInstance().schedule(
-                    InstantCommand(lambda: self.drivetrain.seed_field_centric())
-                )
-            ]()
+            lambda: CommandScheduler.getInstance().schedule(
+                InstantCommand(left_bumper_pressed)
+            )
         )
 
         self.joystick.rightBumper(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Right Bumper Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Right Bumper Pressed")
         )
 
         # Triggers
         self.joystick.leftTrigger(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Left Trigger Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Left Trigger Pressed")
         )
 
         self.joystick.rightTrigger(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Right Trigger Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Right Trigger Pressed")
         )
 
         # Start and Back buttons
         self.joystick.start(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Start Button Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Start Button Pressed")
         )
 
         self.joystick.back(self.event_loop).ifHigh(
-            lambda: wpilib.DataLogManager.log("Back Button Pressed")
+            lambda: wpilib.SmartDashboard.putString("Button", "Back Button Pressed")
         )
 
     def get_autonomous_command(self) -> Command:
