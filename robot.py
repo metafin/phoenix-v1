@@ -21,7 +21,6 @@ class Robot(wpilib.TimedRobot):
         """Run once when the robot enters Disabled mode."""
         pass
 
-
     def disabledPeriodic(self):
         """Run periodically while the robot is in Disabled mode."""
         pass

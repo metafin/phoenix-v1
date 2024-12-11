@@ -9,13 +9,13 @@ class LimelightHandler:
         self.limelight_instance = None
 
         if self.discovered_limelights:
-            print("Found an April Tag")
+            print("Limelight init: Limelight found and active")
             limelight_address = self.discovered_limelights[0]
             self.limelight_instance = limelight.Limelight(limelight_address)
             self.limelight_instance.pipeline_switch(0)  # Switch to AprilTag detection pipeline
             self.limelight_instance.enable_websocket()
         else:
-            print("No Limelights found!")
+            print("Limelight init: ERROR: No Limelights found")
 
     def read_results(self):
         if self.limelight_instance:
@@ -24,7 +24,7 @@ class LimelightHandler:
 
             if parsed_result is not None:
                 for tag in parsed_result.fiducialResults:
-                    print(f"AprilTag ID: {tag.fiducial_id}, Robot Pose: {tag.robot_pose_target_space}")
+                    print(f"Limelight read_results: AprilTag ID: {tag.fiducial_id}, Robot Pose: {tag.robot_pose_target_space}")
 
     def cleanup(self):
         if self.limelight_instance:
