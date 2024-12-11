@@ -1,5 +1,5 @@
 import math
-from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler
+from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler, SequentialCommandGroup
 from commands2.button import Trigger
 from wpilib import XboxController
 from wpilib.event import EventLoop
@@ -9,7 +9,7 @@ from phoenix6.swerve import requests, swerve_module
 from subsystems.command_swerve_drivetrain import CommandSwerveDrivetrain
 from telemetry import Telemetry
 from generated import tuner_constants
-from commands2 import InstantCommand, CommandScheduler
+from commands2.button import JoystickButton
 from subsystems.rotate_to_april_tag import RotateToAprilTag
 from handlers.limelight_handler import LimelightHandler
 
@@ -64,38 +64,40 @@ class RobotContainer:
         # Ensure you have a default EventLoop from the CommandScheduler
         default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
 
-        self.joystick.A(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
-            )
+        a_button = JoystickButton(self.joystick, self.joystick.Button.kA)
+        b_button = JoystickButton(self.joystick, self.joystick.Button.kB)
+        x_button = JoystickButton(self.joystick, self.joystick.Button.kX)
+        left_bumper_button = JoystickButton(self.joystick, self.joystick.Button.kLeftBumper)
+
+        def print_action(button_name):
+            print(f"Button: {button_name}")
+
+        a_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("A")),  # Print that the A button was pressed
+            InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))  # Apply the brake
         )
 
-        # Point wheels on B button
-        self.joystick.B(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(
-                    lambda: self.drivetrain.apply_request(
-                        lambda: self.point.with_module_direction(
-                            Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
-                        )
+        b_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("B")),  # Print that the A button was pressed
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.point.with_module_direction(
+                        Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
                     )
                 )
             )
         )
 
-        # X button: Rotate to AprilTag
-        self.joystick.X(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                RotateToAprilTag(self.drivetrain, self.limelight_handler)
-            )
+        lb_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("LB")),  # Print that the A button was pressed
+            InstantCommand(lambda: self.drivetrain.seed_field_centric())
         )
 
-        # Reset field-centric heading on left bumper
-        self.joystick.leftBumper(self.event_loop).ifHigh(
-            lambda: CommandScheduler.getInstance().schedule(
-                InstantCommand(lambda: self.drivetrain.seed_field_centric())
-            )
-        )
+        # Bind the command to run continuously
+        a_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(a_button_command)))
+        b_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(b_button_command)))
+        left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
+        x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler))
 
     def get_autonomous_command(self) -> Command:
         """Return the autonomous command."""
