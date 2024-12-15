@@ -17,7 +17,7 @@ class RobotContainer:
 
     def __init__(self):
         """Initialize the RobotContainer and configure bindings."""
-        self.max_speed = tuner_constants.k_speed_at_12_volts_mps * 0.5  # Top speed
+        self.max_speed = tuner_constants.k_speed_at_12_volts_mps  # Top speed
         self.max_angular_rate = 1.5 * math.pi  # Max angular velocity (3/4 rotation per second)
 
         # Joystick and drivetrain initialization
@@ -97,7 +97,7 @@ class RobotContainer:
         a_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(a_button_command)))
         b_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(b_button_command)))
         left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
-        x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler))
+        x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler, self.max_angular_rate))
 
     def get_autonomous_command(self) -> Command:
         """Return the autonomous command."""
