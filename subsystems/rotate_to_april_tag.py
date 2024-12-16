@@ -21,14 +21,22 @@ class RotateToAprilTag(Command):
 
     def execute(self):
         """Called repeatedly when the command is scheduled."""
+        print("")
+        print("")
         print("rotate_to_april_tag execute")
         result = self.limelight_handler.read_results()
         if result and result.validity:
+            print("")
+            print("")
             print("----- Target: Acquired")
             tx = result.fiducialResults[0].target_x_degrees  # Replace with your Limelight's offset API
+            print("")
+            print("")
             print("----- Target: tx:",tx)
             if abs(tx) > 1.0:  # Adjust the threshold as needed
                 scaled_rotation = tx / 45
+                print("")
+                print("")
                 print("----- Scaled Rotation:", scaled_rotation)
                 print("----- Rotation:", -scaled_rotation * self.max_angular_rate)
                 self.drivetrain.apply_request(lambda: self.drive
@@ -37,6 +45,8 @@ class RotateToAprilTag(Command):
             else:
                 self.target_acquired = True
         else:
+            print("")
+            print("")
             print('----- Target: None Found')
 
     def isFinished(self):
