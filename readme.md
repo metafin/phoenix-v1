@@ -102,45 +102,6 @@ Maybe we need to install all the packages listed above
 - robotpy deploy fails becuase of some issues with tests
 - but when i run "robotpy deploy --skip-tests" is seems to deploy
 
-But... I get this error:
 
-﻿﻿﻿﻿﻿﻿ Exception ignored on calling ctypes callback function <function SwerveDrivetrain.register_telemetry.<locals>.telem_callback at 0xb17676b8>: ﻿
-﻿﻿﻿﻿﻿﻿ Traceback (most recent call last): ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/phoenix6/swerve/swerve_drivetrain.py", line 619, in telem_callback ﻿
-﻿﻿﻿﻿﻿﻿     telemetry_function(self.__cached_state) ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 52, in telemeterize ﻿
-﻿﻿﻿﻿﻿﻿     distance_diff = pose.translation().minus(self.last_pose.translation()) ﻿
-﻿﻿﻿﻿﻿﻿ AttributeError: 'wpimath.geometry._geometry.Translation2d' object has no attribute 'minus' ﻿
-﻿﻿﻿﻿﻿﻿ ﻿Warning﻿: Joystick Axis 4 missing (max 4), check if all controllers are plugged in ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/wpilib/_impl/start.py", line 247, in _start ﻿
-﻿﻿﻿﻿﻿﻿     self.robot.startCompetition() ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot.py", line 18, in robotPeriodic ﻿
-﻿﻿﻿﻿﻿﻿     CommandScheduler.getInstance().run() ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 301, in run ﻿
-﻿﻿﻿﻿﻿﻿     self._schedule(scommand) ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 212, in _schedule ﻿
-﻿﻿﻿﻿﻿﻿     self._initCommand(command, *requirements) ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/commandscheduler.py", line 168, in _initCommand ﻿
-﻿﻿﻿﻿﻿﻿     command.initialize() ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/commands2/functionalcommand.py", line 50, in initialize ﻿
-﻿﻿﻿﻿﻿﻿     self._onInit() ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/subsystems/command_swerve_drivetrain.py", line 33, in <lambda> ﻿
-﻿﻿﻿﻿﻿﻿     return InstantCommand(lambda: self.set_control(request_supplier()), self) ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/robot_container.py", line 54, in <lambda> ﻿
-﻿﻿﻿﻿﻿﻿     .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate) ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿  ﻿
-﻿﻿﻿﻿﻿﻿ Exception ignored on calling ctypes callback function <function SwerveDrivetrain.register_telemetry.<locals>.telem_callback at 0xb17676b8>: ﻿
-﻿﻿﻿﻿﻿﻿ Traceback (most recent call last): ﻿
-﻿﻿﻿﻿﻿﻿   File "/usr/local/lib/python3.13/site-packages/phoenix6/swerve/swerve_drivetrain.py", line 619, in telem_callback ﻿
-﻿﻿﻿﻿﻿﻿     telemetry_function(self.__cached_state) ﻿
-﻿﻿﻿﻿﻿﻿   File "/home/lvuser/py/telemetry.py", line 52, in telemeterize ﻿
-﻿﻿﻿﻿﻿﻿     distance_diff = pose.translation().minus(self.last_pose.translation()) ﻿
-﻿﻿﻿﻿﻿﻿ AttributeError: 'wpimath.geometry._geometry.Translation2d' object has no attribute 'minus' ﻿
+llm prompts
+
