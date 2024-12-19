@@ -1,6 +1,6 @@
 import math
 from commands2 import InstantCommand, PrintCommand, Command, CommandScheduler, SequentialCommandGroup
-from commands2.button import Trigger, JoystickButton
+from commands2.button import Trigger
 from wpilib import XboxController
 from wpilib.event import EventLoop
 from wpimath.geometry import Pose2d, Rotation2d, Translation2d
@@ -9,10 +9,12 @@ from phoenix6.swerve import requests, swerve_module
 from subsystems.command_swerve_drivetrain import CommandSwerveDrivetrain
 from telemetry import Telemetry
 from generated import tuner_constants
+from commands2.button import JoystickButton
+from subsystems.rotate_to_april_tag import RotateToAprilTag
 from handlers.limelight_handler import LimelightHandler
-from Rotate90Command import Rotate90Command
 
 class RobotContainer:
+
     def __init__(self):
         """Initialize the RobotContainer and configure bindings."""
         self.max_speed = tuner_constants.k_speed_at_12_volts_mps  # Top speed
@@ -36,6 +38,8 @@ class RobotContainer:
         # Telemetry
         self.logger = Telemetry(self.max_speed)
 
+        self.event_loop = EventLoop()
+
         # Configure button bindings
         self.configure_bindings()
 
@@ -46,59 +50,54 @@ class RobotContainer:
         # Register telemetry
         self.drivetrain.register_telemetry(self.logger.telemeterize)
 
-    def get_drive_request(self):
-        """Create and return the drive request based on joystick inputs."""
-        return self.drive \
-            .with_velocity_x(-self.joystick.getLeftY() * self.max_speed) \
-            .with_velocity_y(-self.joystick.getLeftX() * self.max_speed) \
-            .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
-
-    def apply_brake(self):
-        """Apply the brake request."""
-        self.drivetrain.apply_request(self.brake)
-
-    def point_wheels(self):
-        """Point wheels based on joystick input."""
-        rotation = Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
-        self.drivetrain.apply_request(self.point.with_module_direction(rotation))
-
-    def seed_field_centric_command(self):
-        """Seed the field-centric position."""
-        self.drivetrain.seed_field_centric()
-
     def configure_bindings(self):
         """Configure button-to-command mappings."""
         # Default drivetrain command
         self.drivetrain.setDefaultCommand(
-            Command(lambda: self.drivetrain.apply_request(self.get_drive_request()))
+            self.drivetrain.apply_request(lambda: self.drive
+                                          .with_velocity_x(-self.joystick.getLeftY() * self.max_speed)
+                                          .with_velocity_y(-self.joystick.getLeftX() * self.max_speed)
+                                          .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
+                                          )
         )
 
-        a_button = JoystickButton(self.joystick, XboxController.Button.kA.value)
-        b_button = JoystickButton(self.joystick, XboxController.Button.kB.value)
-        x_button = JoystickButton(self.joystick, XboxController.Button.kX.value)
-        left_bumper = JoystickButton(self.joystick, XboxController.Button.kLeftBumper.value)
+        # Ensure you have a default EventLoop from the CommandScheduler
+        default_loop = CommandScheduler.getInstance().getDefaultButtonLoop()
 
-        # Create command sequences
-        a_command = SequentialCommandGroup(
-            InstantCommand(lambda: print("Button: A")),
-            InstantCommand(self.apply_brake)
+        a_button = JoystickButton(self.joystick, self.joystick.Button.kA)
+        b_button = JoystickButton(self.joystick, self.joystick.Button.kB)
+        x_button = JoystickButton(self.joystick, self.joystick.Button.kX)
+        left_bumper_button = JoystickButton(self.joystick, self.joystick.Button.kLeftBumper)
+
+        def print_action(button_name):
+            print(f"Button: {button_name}")
+
+        a_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("A")),  # Print that the A button was pressed
+            InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))  # Apply the brake
         )
 
-        b_command = SequentialCommandGroup(
-            InstantCommand(lambda: print("Button: B")),
-            InstantCommand(self.point_wheels)
+        b_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("B")),  # Print that the A button was pressed
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.point.with_module_direction(
+                        Rotation2d(-self.joystick.getLeftY(), -self.joystick.getLeftX())
+                    )
+                )
+            )
         )
 
-        lb_command = SequentialCommandGroup(
-            InstantCommand(lambda: print("Button: LB")),
-            InstantCommand(self.seed_field_centric_command)
+        lb_button_command = SequentialCommandGroup(
+            InstantCommand(lambda: print_action("LB")),  # Print that the A button was pressed
+            InstantCommand(lambda: self.drivetrain.seed_field_centric())
         )
 
-        # Bind commands to buttons
-        a_button.onTrue(a_command)
-        b_button.onTrue(b_command)
-        left_bumper.onTrue(lb_command)
-        x_button.onTrue(Rotate90Command(self.drive, self.max_angular_rate))
+        # Bind the command to run continuously
+        a_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(a_button_command)))
+        b_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(b_button_command)))
+        left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
+        x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler, self.max_angular_rate))
 
     def get_autonomous_command(self) -> Command:
         """Return the autonomous command."""
