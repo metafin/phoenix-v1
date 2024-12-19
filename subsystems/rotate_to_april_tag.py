@@ -1,64 +1,37 @@
-from commands2 import Command
-from phoenix6.swerve import requests
-
-
 class RotateToAprilTag(Command):
-    def __init__(self, drivetrain, limelight_handler):
-        print("[RotateToAprilTag] Initializing command")
+    def __init__(self, drive, limelight_handler, max_angular_rate):
+        print("rotate_to_april_tag init")
         super().__init__()
-        self.drivetrain = drivetrain
+        self.drive = drive
         self.limelight_handler = limelight_handler
+        self.max_angular_rate = max_angular_rate
         self.target_acquired = False
 
-        # Create the field-centric drive request
-        self.drive = requests.FieldCentric() \
-            .with_deadband(0.1) \
-            .with_rotational_deadband(0.1)
-
-        # Declare subsystem dependencies
-        self.addRequirements(self.drivetrain)
-        print("[RotateToAprilTag] Initialization complete")
+    def initialize(self):
+        self.target_acquired = False
+        print("rotate_to_april_tag initialized")
 
     def execute(self):
-        """Called repeatedly when the command is scheduled."""
-        print("[RotateToAprilTag] Execute called")
+        print("rotate_to_april_tag execute")
         result = self.limelight_handler.read_results()
-        print(f"[RotateToAprilTag] Limelight result: {result}")
-
         if result and result.validity:
-            tx = result.targeting_offset_x
-            print(f"[RotateToAprilTag] Target offset X: {tx}")
-
+            print("----- Target: Acquired")
+            tx = result.fiducialResults[0].target_x_degrees
+            print("----- Target: tx:", tx)
             if abs(tx) > 1.0:
-                rotation_rate = -0.1 * tx
-                print(f"[RotateToAprilTag] Rotating with rate: {rotation_rate}")
-                # Apply the rotation request properly
-                self.drivetrain.apply_request(
-                    lambda: self.drive
-                    .with_velocity_x(0)
-                    .with_velocity_y(0)
-                    .with_rotational_rate(rotation_rate)
-                )
+                scaled_rotation = tx / 45
+                print("----- Scaled Rotation:", scaled_rotation)
+                print("----- Rotation:", -scaled_rotation * self.max_angular_rate)
+                # Fixed line - call directly on self.drive
+                self.drive.with_rotational_rate(-scaled_rotation * self.max_angular_rate)
             else:
-                print("[RotateToAprilTag] Target acquired - within threshold")
                 self.target_acquired = True
         else:
-            print("[RotateToAprilTag] No valid target found")
+            print('----- Target: None Found')
 
     def isFinished(self):
-        """Returns True when the command should end."""
-        finished = self.target_acquired
-        print(f"[RotateToAprilTag] isFinished called, returning: {finished}")
-        return finished
+        return False
 
     def end(self, interrupted):
-        """Called once the command ends or is interrupted."""
-        print(f"[RotateToAprilTag] Ending command. Interrupted: {interrupted}")
-        # Stop rotation by applying zero request
-        self.drivetrain.apply_request(
-            lambda: self.drive
-            .with_velocity_x(0)
-            .with_velocity_y(0)
-            .with_rotational_rate(0)
-        )
-        print("[RotateToAprilTag] Zero rotation request applied")
+        print(f"rotate_to_april_tag ended, interrupted={interrupted}")
+        self.drive.with_rotational_rate(0)
