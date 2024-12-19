@@ -96,13 +96,14 @@ class RobotContainer:
             InstantCommand(lambda: self.drivetrain.seed_field_centric())
         )
 
-        x_button_command = self.create_rotate_command(90)  # Create the rotate command
+        # x_button_command = self.create_rotate_command(90)  # Create the rotate command
 
         # Bind all commands
         a_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(a_button_command)))
         b_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(b_button_command)))
         left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
-        x_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(x_button_command)))
+        # x_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(x_button_command)))
+        x_button.onTrue(self.create_rotate_command(90))
 
     def create_rotate_command(self, degrees):
         print(f'Creating rotate command for {degrees} degrees')
@@ -110,7 +111,7 @@ class RobotContainer:
         duration = abs(radians / self.max_angular_rate)
         print(f'Calculated duration: {duration} seconds')
 
-        return SequentialCommandGroup(
+        command = SequentialCommandGroup(
             InstantCommand(
                 lambda: print(f"Starting rotation of {degrees} degrees")
             ),
@@ -135,6 +136,8 @@ class RobotContainer:
                 )
             )
         )
+        command.addRequirements(self.drivetrain)  # Add this line
+        return command
 
 
     def get_autonomous_command(self) -> Command:
