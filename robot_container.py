@@ -67,6 +67,7 @@ class RobotContainer:
         a_button = JoystickButton(self.joystick, self.joystick.Button.kA)
         b_button = JoystickButton(self.joystick, self.joystick.Button.kB)
         x_button = JoystickButton(self.joystick, self.joystick.Button.kX)
+        x_button.onTrue(self.create_rotate_command(90))
         left_bumper_button = JoystickButton(self.joystick, self.joystick.Button.kLeftBumper)
 
         def print_action(button_name):
@@ -99,6 +100,29 @@ class RobotContainer:
         left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
         x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler, self.max_angular_rate))
 
+    def create_rotate_command(self, degrees):
+        radians = math.radians(degrees)
+        duration = abs(radians / self.max_angular_rate)
+
+        return SequentialCommandGroup(
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.drive.with_velocity_x(0)
+                    .with_velocity_y(0)
+                    .with_rotational_rate(
+                        self.max_angular_rate if degrees > 0 else -self.max_angular_rate
+                    )
+                )
+            ),
+            WaitCommand(duration),
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.drive.with_velocity_x(0)
+                    .with_velocity_y(0)
+                    .with_rotational_rate(0)
+                )
+            )
+        )
     def get_autonomous_command(self) -> Command:
         """Return the autonomous command."""
         return PrintCommand("No autonomous command configured")
