@@ -56,11 +56,12 @@ class RobotContainer:
         """Configure button-to-command mappings."""
         # Default drivetrain command
         self.drivetrain.setDefaultCommand(
-            self.drivetrain.apply_request(lambda: self.drive
-                                          .with_velocity_x(-self.joystick.getLeftY() * self.max_speed)
-                                          .with_velocity_y(-self.joystick.getLeftX() * self.max_speed)
-                                          .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
-                                          )
+            self.drivetrain.apply_request(
+                lambda: self.drive
+                .with_velocity_x(-self.joystick.getLeftY() * self.max_speed)
+                .with_velocity_y(-self.joystick.getLeftX() * self.max_speed)
+                .with_rotational_rate(-self.joystick.getRightX() * self.max_angular_rate)
+                )
         )
 
         # Ensure you have a default EventLoop from the CommandScheduler
@@ -69,20 +70,18 @@ class RobotContainer:
         a_button = JoystickButton(self.joystick, self.joystick.Button.kA)
         b_button = JoystickButton(self.joystick, self.joystick.Button.kB)
         x_button = JoystickButton(self.joystick, self.joystick.Button.kX)
-        x_button_command = self.create_rotate_command(90)
-        x_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(x_button_command)))
         left_bumper_button = JoystickButton(self.joystick, self.joystick.Button.kLeftBumper)
 
         def print_action(button_name):
             print(f"Button: {button_name}")
 
         a_button_command = SequentialCommandGroup(
-            InstantCommand(lambda: print_action("A")),  # Print that the A button was pressed
-            InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))  # Apply the brake
+            InstantCommand(lambda: print_action("A")),
+            InstantCommand(lambda: self.drivetrain.apply_request(lambda: self.brake))
         )
 
         b_button_command = SequentialCommandGroup(
-            InstantCommand(lambda: print_action("B")),  # Print that the A button was pressed
+            InstantCommand(lambda: print_action("B")),
             InstantCommand(
                 lambda: self.drivetrain.apply_request(
                     lambda: self.point.with_module_direction(
@@ -93,47 +92,51 @@ class RobotContainer:
         )
 
         lb_button_command = SequentialCommandGroup(
-            InstantCommand(lambda: print_action("LB")),  # Print that the A button was pressed
+            InstantCommand(lambda: print_action("LB")),
             InstantCommand(lambda: self.drivetrain.seed_field_centric())
         )
 
-        # Bind the command to run continuously
+        x_button_command = self.create_rotate_command(90)  # Create the rotate command
+
+        # Bind all commands
         a_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(a_button_command)))
         b_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(b_button_command)))
         left_bumper_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(lb_button_command)))
-        # x_button.whileTrue(RotateToAprilTag(self.drive, self.limelight_handler, self.max_angular_rate))
+        x_button.onTrue(InstantCommand(lambda: CommandScheduler.getInstance().schedule(x_button_command)))
 
-        def create_rotate_command(self, degrees):
-            print(f'Creating rotate command for {degrees} degrees')
-            radians = math.radians(degrees)
-            duration = abs(radians / self.max_angular_rate)
-            print(f'Calculated duration: {duration} seconds')
+    def create_rotate_command(self, degrees):
+        print(f'Creating rotate command for {degrees} degrees')
+        radians = math.radians(degrees)
+        duration = abs(radians / self.max_angular_rate)
+        print(f'Calculated duration: {duration} seconds')
 
-            return SequentialCommandGroup(
-                InstantCommand(
-                    lambda: print(f"Starting rotation of {degrees} degrees")
-                ),
-                InstantCommand(
-                    lambda: self.drivetrain.apply_request(
-                        lambda: self.drive.with_velocity_x(0)
-                        .with_velocity_y(0)
-                        .with_rotational_rate(
-                            self.max_angular_rate if degrees > 0 else -self.max_angular_rate
-                        )
-                    )
-                ),
-                WaitCommand(duration),
-                InstantCommand(
-                    lambda: print("Rotation complete")
-                ),
-                InstantCommand(
-                    lambda: self.drivetrain.apply_request(
-                        lambda: self.drive.with_velocity_x(0)
-                        .with_velocity_y(0)
-                        .with_rotational_rate(0)
+        return SequentialCommandGroup(
+            InstantCommand(
+                lambda: print(f"Starting rotation of {degrees} degrees")
+            ),
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.drive.with_velocity_x(0)
+                    .with_velocity_y(0)
+                    .with_rotational_rate(
+                        self.max_angular_rate if degrees > 0 else -self.max_angular_rate
                     )
                 )
+            ),
+            WaitCommand(duration),
+            InstantCommand(
+                lambda: print("Rotation complete")
+            ),
+            InstantCommand(
+                lambda: self.drivetrain.apply_request(
+                    lambda: self.drive.with_velocity_x(0)
+                    .with_velocity_y(0)
+                    .with_rotational_rate(0)
+                )
             )
+        )
+
+
     def get_autonomous_command(self) -> Command:
         """Return the autonomous command."""
         return PrintCommand("No autonomous command configured")
